@@ -17,7 +17,7 @@ public class DataTransactionRepositoryOracle {
     private final DataTransactionJpaRepositoryOracle dataTransactionJpaRepositoryOracle;
 
     public List<String> getDataExistOnOracle(String trxDate){
-
+        log.info("DataTransactionRepositoryOracle.getDataExistOnOracle: {}", trxDate);
         return dataTransactionJpaRepositoryOracle.getDataExistOnOracle(trxDate);
     }
 

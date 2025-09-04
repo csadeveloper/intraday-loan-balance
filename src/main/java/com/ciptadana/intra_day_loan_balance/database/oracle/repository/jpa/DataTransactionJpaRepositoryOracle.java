@@ -16,10 +16,15 @@ import java.util.List;
 @Repository
 public interface DataTransactionJpaRepositoryOracle extends JpaRepository<NativeEntity, String> {
 
-    @Query(value = "SELECT * FROM RDI_BALANCE_INTRADAY_LOG ORDER BY RECDATE, RECTIME ", nativeQuery = true)
+    // Query yang disarankan untuk getDataExistOnOracle
+    /* before: @Query(value = "SELECT * FROM RDI_BALANCE_INTRADAY_LOG ORDER BY RECDATE, RECTIME ", nativeQuery = true)
+     reason: SELECT * meminta semua kolom untuk setiap baris (RECDATE, RECTIME, CLIENTCODE, dll).
+     sedangkan, List<String> hanya bisa menampung satu nilai String untuk setiap  */
+    @Query(value = "SELECT EXTERNALREF FROM RDI_BALANCE_INTRADAY_LOG WHERE RECDATE = :trxDate ORDER BY RECDATE, RECTIME", nativeQuery = true)
     List<String> getDataExistOnOracle(
             @Param("trxDate") String trxDate
     );
+
 
     @Query(value =  "SELECT CLIENTCODE, NAME FROM CORE.RDI_BALANCE " +
                     "LEFT JOIN DENPASAR.CLIENT@BOS ON CLIENTCODE = CODE " +

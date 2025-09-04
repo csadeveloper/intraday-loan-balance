@@ -65,7 +65,7 @@ public class IntraDayLoanBalanceService {
 
                     if(mapKey.get(transaction.getExternalRef()) != null) {
                         log.info("Transaction not process: {}", transaction.getExternalRef());
-                        return;
+                        continue; // return
                     }
 
                     boolean insertMutationData = dataTransactionRepositoryOracle.insertRdiBalanceLog(data.getClientCode(), transaction);
